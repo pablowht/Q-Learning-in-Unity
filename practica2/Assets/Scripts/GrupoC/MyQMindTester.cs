@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
+
+using NavigationDJIA.World;
+using QMind.Interfaces;
 using UnityEngine;
 
-public class QMindTrainer : MonoBehaviour
+public class MyQMindTester : IQMind
 {
-    // Start is called before the first frame update
-    void Start()
+    public void Initialize(WorldInfo worldInfo)
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    CellInfo IQMind.GetNextStep(CellInfo currentPosition, CellInfo otherPosition)
     {
-        
+        throw new System.NotImplementedException();
     }
 }
