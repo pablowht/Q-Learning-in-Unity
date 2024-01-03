@@ -15,7 +15,7 @@ C:/Users/User/Documents/GitHub/InteligenciaArtificial/practica2
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-62682
+52391
 Successfully changed project path to: C:/Users/User/Documents/GitHub/InteligenciaArtificial/practica2
 C:/Users/User/Documents/GitHub/InteligenciaArtificial/practica2
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -49,11 +49,11 @@ C:/Users/User/Documents/GitHub/InteligenciaArtificial/practica2
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [1724] Host "[IP] 192.168.86.50 [Port] 0 [Flags] 2 [Guid] 855899340 [EditorId] 855899340 [Version] 1048832 [Id] WindowsEditor(7,TheGreatBlue-A08) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+Player connection [9796] Host "[IP] 192.168.86.50 [Port] 0 [Flags] 2 [Guid] 1168405062 [EditorId] 1168405062 [Version] 1048832 [Id] WindowsEditor(7,TheGreatBlue-A08) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
 
-Player connection [1724] Host "[IP] 192.168.86.50 [Port] 0 [Flags] 2 [Guid] 855899340 [EditorId] 855899340 [Version] 1048832 [Id] WindowsEditor(7,TheGreatBlue-A08) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [9796] Host "[IP] 192.168.86.50 [Port] 0 [Flags] 2 [Guid] 1168405062 [EditorId] 1168405062 [Version] 1048832 [Id] WindowsEditor(7,TheGreatBlue-A08) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
 
-Refreshing native plugins compatible for Editor in 9.10 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 7.85 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2022.3.2f1 (d74737c6db50)
 [Subsystems] Discovering subsystems at path E:/Unity Hub/Editor/2022.3.2f1/Editor/Data/Resources/UnitySubsystems
@@ -69,44 +69,44 @@ Initialize mono
 Mono path[0] = 'E:/Unity Hub/Editor/2022.3.2f1/Editor/Data/Managed'
 Mono path[1] = 'E:/Unity Hub/Editor/2022.3.2f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'E:/Unity Hub/Editor/2022.3.2f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56832
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56196
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: E:/Unity Hub/Editor/2022.3.2f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.002768 seconds.
-- Loaded All Assemblies, in  0.285 seconds
+Registered in 0.002298 seconds.
+- Loaded All Assemblies, in  0.264 seconds
 Native extension for WindowsStandalone target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.240 seconds
-Domain Reload Profiling: 525ms
-	BeginReloadAssembly (67ms)
+- Finished resetting the current domain, in  0.220 seconds
+Domain Reload Profiling: 484ms
+	BeginReloadAssembly (63ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
 		CreateAndSetChildDomain (1ms)
-	RebuildCommonClasses (31ms)
-	RebuildNativeTypeToScriptingClass (11ms)
-	initialDomainReloadingComplete (46ms)
-	LoadAllAssembliesAndSetupDomain (131ms)
-		LoadAssemblies (66ms)
+	RebuildCommonClasses (30ms)
+	RebuildNativeTypeToScriptingClass (10ms)
+	initialDomainReloadingComplete (43ms)
+	LoadAllAssembliesAndSetupDomain (118ms)
+		LoadAssemblies (62ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (128ms)
-			TypeCache.Refresh (127ms)
-				TypeCache.ScanAssembly (115ms)
+		AnalyzeDomain (116ms)
+			TypeCache.Refresh (115ms)
+				TypeCache.ScanAssembly (105ms)
 			ScanForSourceGeneratedMonoScriptInfo (0ms)
-			ResolveRequiredComponents (1ms)
-	FinalizeReload (240ms)
+			ResolveRequiredComponents (0ms)
+	FinalizeReload (220ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (179ms)
+		SetupLoadedEditorAssemblies (171ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (7ms)
-			SetLoadedEditorAssemblies (6ms)
+			InitializePlatformSupportModulesInManaged (6ms)
+			SetLoadedEditorAssemblies (7ms)
 			RefreshPlugins (0ms)
 			BeforeProcessingInitializeOnLoad (2ms)
-			ProcessInitializeOnLoadAttributes (117ms)
-			ProcessInitializeOnLoadMethodAttributes (46ms)
+			ProcessInitializeOnLoadAttributes (115ms)
+			ProcessInitializeOnLoadMethodAttributes (41ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -116,55 +116,55 @@ Worker process is ready to serve import requests
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image C:\Users\User\Documents\GitHub\InteligenciaArtificial\practica2\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
 Symbol file LoadedFromMemory doesn't match image C:\Users\User\Documents\GitHub\InteligenciaArtificial\practica2\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
-- Loaded All Assemblies, in  0.635 seconds
-Refreshing native plugins compatible for Editor in 2.81 ms, found 3 plugins.
+- Loaded All Assemblies, in  0.561 seconds
+Refreshing native plugins compatible for Editor in 2.68 ms, found 3 plugins.
 Native extension for WindowsStandalone target not found
 Package Manager log level set to [2]
 [Package Manager] Server::EnsureServerProcessIsRunning -- launch failed, reason: Unity was launched with the -noUpm command-line argument
 [Package Manager] UpmClient::Send -- Unable to send message (not connected to UPM process).
 [Package Manager] Cannot connect to Unity Package Manager local server
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.537 seconds
-Domain Reload Profiling: 1171ms
-	BeginReloadAssembly (121ms)
+- Finished resetting the current domain, in  0.542 seconds
+Domain Reload Profiling: 1102ms
+	BeginReloadAssembly (96ms)
 		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (6ms)
+		DisableScriptedObjects (4ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (25ms)
-	RebuildCommonClasses (30ms)
-	RebuildNativeTypeToScriptingClass (11ms)
-	initialDomainReloadingComplete (40ms)
-	LoadAllAssembliesAndSetupDomain (433ms)
-		LoadAssemblies (199ms)
+		CreateAndSetChildDomain (19ms)
+	RebuildCommonClasses (28ms)
+	RebuildNativeTypeToScriptingClass (10ms)
+	initialDomainReloadingComplete (31ms)
+	LoadAllAssembliesAndSetupDomain (395ms)
+		LoadAssemblies (184ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (280ms)
-			TypeCache.Refresh (252ms)
-				TypeCache.ScanAssembly (241ms)
-			ScanForSourceGeneratedMonoScriptInfo (20ms)
+		AnalyzeDomain (253ms)
+			TypeCache.Refresh (227ms)
+				TypeCache.ScanAssembly (217ms)
+			ScanForSourceGeneratedMonoScriptInfo (18ms)
 			ResolveRequiredComponents (8ms)
-	FinalizeReload (537ms)
+	FinalizeReload (543ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (396ms)
+		SetupLoadedEditorAssemblies (404ms)
 			LogAssemblyErrors (0ms)
 			InitializePlatformSupportModulesInManaged (4ms)
 			SetLoadedEditorAssemblies (3ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (58ms)
-			ProcessInitializeOnLoadAttributes (273ms)
-			ProcessInitializeOnLoadMethodAttributes (56ms)
+			BeforeProcessingInitializeOnLoad (65ms)
+			ProcessInitializeOnLoadAttributes (276ms)
+			ProcessInitializeOnLoadMethodAttributes (55ms)
 			AfterProcessingInitializeOnLoad (2ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
 		AwakeInstancesAfterBackupRestoration (6ms)
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.04 seconds
-Refreshing native plugins compatible for Editor in 4.01 ms, found 3 plugins.
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Refreshing native plugins compatible for Editor in 3.07 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 5309 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 70 unused Assets / (390.7 KB). Loaded Objects now: 5770.
-Memory consumption went from 212.0 MB to 211.7 MB.
-Total: 6.582000 ms (FindLiveObjects: 1.262400 ms CreateObjectMapping: 0.261500 ms MarkObjects: 4.434100 ms  DeleteObjects: 0.621700 ms)
+Unloading 5310 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 70 unused Assets / (415.2 KB). Loaded Objects now: 5771.
+Memory consumption went from 212.0 MB to 211.6 MB.
+Total: 3.815900 ms (FindLiveObjects: 0.515500 ms CreateObjectMapping: 0.173100 ms MarkObjects: 2.857000 ms  DeleteObjects: 0.269500 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
@@ -179,82 +179,58 @@ AssetImportParameters requested are different than current active one (requested
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Import Request.
-  Time since last request: 182297.228054 seconds.
-  path: Assets/UniversalRenderPipelineGlobalSettings.asset
-  artifactKey: Guid(18dc0cd2c080841dea60987a38ce93fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/UniversalRenderPipelineGlobalSettings.asset using Guid(18dc0cd2c080841dea60987a38ce93fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0826c28cb0ac08c7995a8211ea1eb1f9') in 0.013899 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 1
-========================================================================
-Received Import Request.
-  Time since last request: 166.601384 seconds.
-  path: Assets/Scenes
-  artifactKey: Guid(9c53962885c2c4f449125a979d6ad240) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scenes using Guid(9c53962885c2c4f449125a979d6ad240) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd2837f784b82376b13ac855d130f3e12') in 0.000613 seconds
+  Time since last request: 71527.817543 seconds.
+  path: Assets/Scripts/QMind/QMindDummy.cs
+  artifactKey: Guid(c93a4b0b9a0849fd97354b1595704e52) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/QMind/QMindDummy.cs using Guid(c93a4b0b9a0849fd97354b1595704e52) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '31fddba4baa7ea1e2160c50473c9b66c') in 0.002031 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 0
 ========================================================================
 Received Import Request.
-  Time since last request: 13.735566 seconds.
-  path: Assets/Scenes/QLearning
-  artifactKey: Guid(c2616df654a65e64c8f21fc5164f0b08) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scenes/QLearning using Guid(c2616df654a65e64c8f21fc5164f0b08) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6bccd82e5c99fe5a14fc40553dbc4a0c') in 0.000731 seconds
+  Time since last request: 0.000049 seconds.
+  path: Assets/Scripts/QMind/QMindTrainerParams.cs
+  artifactKey: Guid(36f577ce40b04c6592aad8037e7c6be4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/QMind/QMindTrainerParams.cs using Guid(36f577ce40b04c6592aad8037e7c6be4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '26da5466a976358b19c869f6640810b1') in 0.000637 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 0
 ========================================================================
 Received Import Request.
-  Time since last request: 5.038937 seconds.
-  path: Assets/Scenes/QLearning/TrainPlayGround.unity
-  artifactKey: Guid(d24cb7ca9b6bd014c969894465c3e74a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scenes/QLearning/TrainPlayGround.unity using Guid(d24cb7ca9b6bd014c969894465c3e74a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1d1ae2eeb779d46219797b07b02fdc77') in 0.000686 seconds
+  Time since last request: 0.000077 seconds.
+  path: Assets/Scripts/QMind/QMindTrainerDummy.cs
+  artifactKey: Guid(47de9927302e4c32881e47bf4a3fc469) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/QMind/QMindTrainerDummy.cs using Guid(47de9927302e4c32881e47bf4a3fc469) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '285fd6fa52b3474228d99f8ce3e7d02b') in 0.000634 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 0
 ========================================================================
 Received Import Request.
-  Time since last request: 1.405143 seconds.
-  path: Assets/Scenes/QLearning/TestPlayGround.unity
-  artifactKey: Guid(df4f415acc7683649bcfc7df9b1df4c3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scenes/QLearning/TestPlayGround.unity using Guid(df4f415acc7683649bcfc7df9b1df4c3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3ef1d1dbd98f13e051a856b510eb79bf') in 0.000492 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 33.982182 seconds.
-  path: Assets/Scripts
-  artifactKey: Guid(91f332ca9f73ee24b8023d8ab095a682) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts using Guid(91f332ca9f73ee24b8023d8ab095a682) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4ec96534660e09793d0f9f90c37748fe') in 0.000497 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 2.324457 seconds.
-  path: Assets/Scripts/GrupoC
-  artifactKey: Guid(8d74327003e81e54b96696c69054df86) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/GrupoC using Guid(8d74327003e81e54b96696c69054df86) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6fabc5fcdb3846fbe2fcf6008508c451') in 0.000505 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 6.817379 seconds.
-  path: Assets/Scripts/GrupoC/MyQMindTrainer.cs
-  artifactKey: Guid(a82cac6aa463e084cb2fe1c8c91dc021) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/GrupoC/MyQMindTrainer.cs using Guid(a82cac6aa463e084cb2fe1c8c91dc021) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd7f932dccf93e96f2a8852c369dad580') in 0.000711 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 0.738219 seconds.
+  Time since last request: 2.588586 seconds.
   path: Assets/Scripts/GrupoC/MyQMindTester.cs
   artifactKey: Guid(bc8dc1e7e6d702f4091d890f51a8b9b0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/GrupoC/MyQMindTester.cs using Guid(bc8dc1e7e6d702f4091d890f51a8b9b0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '250ff6e4cfbce0c87004e4e6a6987816') in 0.000648 seconds
+Start importing Assets/Scripts/GrupoC/MyQMindTester.cs using Guid(bc8dc1e7e6d702f4091d890f51a8b9b0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '41c4351b3ff2fa9866f25b8206f0e73a') in 0.000804 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 0
 ========================================================================
 Received Import Request.
-  Time since last request: 39.291572 seconds.
-  path: Assets/Scripts/GrupoC/MyQTable.cs
-  artifactKey: Guid(4881046380f4d524d9d848cd0046bc8e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/GrupoC/MyQTable.cs using Guid(4881046380f4d524d9d848cd0046bc8e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '37e557e8a92a2336ca97614dc57c6551') in 0.000678 seconds
+  Time since last request: 632.781133 seconds.
+  path: Assets/Scripts/GrupoC/MyQStates.cs
+  artifactKey: Guid(4740228b1147a8f44be89c022f51c06f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/GrupoC/MyQStates.cs using Guid(4740228b1147a8f44be89c022f51c06f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f03cb96174a369b68c529c0acd439abe') in 0.000973 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 1903.988840 seconds.
+  path: Assets/Scripts/GrupoC/MyQStates.cs
+  artifactKey: Guid(4740228b1147a8f44be89c022f51c06f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/GrupoC/MyQStates.cs using Guid(4740228b1147a8f44be89c022f51c06f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f046afb0d8c0aa43521ebe54f11c73cc') in 0.001806 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 212.544722 seconds.
+  path: Assets/Scripts/GrupoC/MyQStates.cs
+  artifactKey: Guid(4740228b1147a8f44be89c022f51c06f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/GrupoC/MyQStates.cs using Guid(4740228b1147a8f44be89c022f51c06f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '51f600c5a4ef4106056c890f7c0edc5b') in 0.001439 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 0
 ========================================================================
@@ -262,53 +238,53 @@ Received Prepare
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image C:\Users\User\Documents\GitHub\InteligenciaArtificial\practica2\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
 Symbol file LoadedFromMemory doesn't match image C:\Users\User\Documents\GitHub\InteligenciaArtificial\practica2\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
-- Loaded All Assemblies, in  0.565 seconds
-Refreshing native plugins compatible for Editor in 2.69 ms, found 3 plugins.
+- Loaded All Assemblies, in  3.551 seconds
+Refreshing native plugins compatible for Editor in 2.89 ms, found 3 plugins.
 Native extension for WindowsStandalone target not found
 [Package Manager] Server::EnsureServerProcessIsRunning -- launch failed, reason: Unity was launched with the -noUpm command-line argument
 [Package Manager] UpmClient::Send -- Unable to send message (not connected to UPM process).
 [Package Manager] Cannot connect to Unity Package Manager local server
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.895 seconds
-Domain Reload Profiling: 1459ms
-	BeginReloadAssembly (123ms)
+- Finished resetting the current domain, in 18.764 seconds
+Domain Reload Profiling: 22314ms
+	BeginReloadAssembly (289ms)
 		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (4ms)
+		DisableScriptedObjects (7ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (40ms)
-	RebuildCommonClasses (29ms)
+		CreateAndSetChildDomain (104ms)
+	RebuildCommonClasses (174ms)
 	RebuildNativeTypeToScriptingClass (11ms)
-	initialDomainReloadingComplete (22ms)
-	LoadAllAssembliesAndSetupDomain (379ms)
-		LoadAssemblies (183ms)
+	initialDomainReloadingComplete (28ms)
+	LoadAllAssembliesAndSetupDomain (3047ms)
+		LoadAssemblies (2602ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (243ms)
-			TypeCache.Refresh (230ms)
-				TypeCache.ScanAssembly (220ms)
-			ScanForSourceGeneratedMonoScriptInfo (5ms)
-			ResolveRequiredComponents (8ms)
-	FinalizeReload (896ms)
+		AnalyzeDomain (553ms)
+			TypeCache.Refresh (535ms)
+				TypeCache.ScanAssembly (502ms)
+			ScanForSourceGeneratedMonoScriptInfo (10ms)
+			ResolveRequiredComponents (9ms)
+	FinalizeReload (18765ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (387ms)
+		SetupLoadedEditorAssemblies (398ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (6ms)
+			InitializePlatformSupportModulesInManaged (4ms)
 			SetLoadedEditorAssemblies (4ms)
 			RefreshPlugins (0ms)
 			BeforeProcessingInitializeOnLoad (66ms)
-			ProcessInitializeOnLoadAttributes (250ms)
-			ProcessInitializeOnLoadMethodAttributes (59ms)
+			ProcessInitializeOnLoadAttributes (264ms)
+			ProcessInitializeOnLoadMethodAttributes (57ms)
 			AfterProcessingInitializeOnLoad (2ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (19ms)
-Refreshing native plugins compatible for Editor in 2.92 ms, found 3 plugins.
+		AwakeInstancesAfterBackupRestoration (17ms)
+Refreshing native plugins compatible for Editor in 3.17 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 5139 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 42 unused Assets / (362.9 KB). Loaded Objects now: 5776.
-Memory consumption went from 182.2 MB to 181.9 MB.
-Total: 3.692900 ms (FindLiveObjects: 0.513000 ms CreateObjectMapping: 0.167400 ms MarkObjects: 2.787500 ms  DeleteObjects: 0.224000 ms)
+Unloading 5140 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 42 unused Assets / (371.6 KB). Loaded Objects now: 5776.
+Memory consumption went from 182.3 MB to 181.9 MB.
+Total: 5.351500 ms (FindLiveObjects: 0.776800 ms CreateObjectMapping: 0.179000 ms MarkObjects: 4.035300 ms  DeleteObjects: 0.359300 ms)
 
 Prepare: number of updated asset objects reloaded= 0
 AssetImportParameters requested are different than current active one (requested -> active):
@@ -324,138 +300,10 @@ AssetImportParameters requested are different than current active one (requested
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Import Request.
-  Time since last request: 6.647505 seconds.
-  path: Assets/Scripts/GrupoC/MyQTable.cs
-  artifactKey: Guid(4881046380f4d524d9d848cd0046bc8e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/GrupoC/MyQTable.cs using Guid(4881046380f4d524d9d848cd0046bc8e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'efc3fa18b83722561a0395d5aa6c4f5a') in 0.007147 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 9.641982 seconds.
-  path: Assets/Scripts/Components
-  artifactKey: Guid(08a76d944294b264a91908ddec18b4ff) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Components using Guid(08a76d944294b264a91908ddec18b4ff) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4ea5df16535433a556abee1b54787efb') in 0.000664 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 1.722448 seconds.
-  path: Assets/Scripts/Components/QLearning
-  artifactKey: Guid(0bf78b741206b07488bae2b1d7ceea41) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Components/QLearning using Guid(0bf78b741206b07488bae2b1d7ceea41) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'da23e465327a49daf7e71fb875d16dd3') in 0.000558 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 1.787839 seconds.
-  path: Assets/Scripts/Components/QLearning/QMindTester.cs
-  artifactKey: Guid(b09744d94250472baae75646acec29f3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Components/QLearning/QMindTester.cs using Guid(b09744d94250472baae75646acec29f3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b16d44a184a8a4f1560a4a34e5868f2d') in 0.000565 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 3.460691 seconds.
-  path: Assets/Scripts/Components/QLearning/QMindTrainer.cs
-  artifactKey: Guid(29d4feff06b847cd992a198a1493cc08) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Components/QLearning/QMindTrainer.cs using Guid(29d4feff06b847cd992a198a1493cc08) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '97f0e670ce4bc45176ce8864300800ac') in 0.000709 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 7.218992 seconds.
-  path: Assets/Scripts/Components/QLearning/Editor
-  artifactKey: Guid(1bd40063ea1b2d24d98317150575581c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Components/QLearning/Editor using Guid(1bd40063ea1b2d24d98317150575581c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f6bcfbffa6c1d3d67da0c614c2810f40') in 0.000807 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 0.665884 seconds.
-  path: Assets/Scripts/Components/QLearning/Editor/QMindTesterEditor.cs
-  artifactKey: Guid(b515454d4f5843ad97a2c8206f4fc222) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Components/QLearning/Editor/QMindTesterEditor.cs using Guid(b515454d4f5843ad97a2c8206f4fc222) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'eca223416f82489cc4c01d0fd80d39dc') in 0.000749 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 2.223949 seconds.
-  path: Assets/Scripts/Components/QLearning/Editor/QMindTrainerEditor.cs
-  artifactKey: Guid(8bf11dc51c0841418104dbb6f4005ebb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Components/QLearning/Editor/QMindTrainerEditor.cs using Guid(8bf11dc51c0841418104dbb6f4005ebb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7351658aa1435708ca26f8068b500078') in 0.000562 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 3.720866 seconds.
-  path: Assets/Scripts/QMind
-  artifactKey: Guid(936c219b7f01b9444b06f3de78783f9d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/QMind using Guid(936c219b7f01b9444b06f3de78783f9d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '96208bf6f2cb1da862d3d95d84faa483') in 0.000625 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 0.995973 seconds.
-  path: Assets/Scripts/QMind/QMindDummy.cs
-  artifactKey: Guid(c93a4b0b9a0849fd97354b1595704e52) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/QMind/QMindDummy.cs using Guid(c93a4b0b9a0849fd97354b1595704e52) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '04f928ebb5c9a2fe6f4d734a3ab247a4') in 0.000649 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 1.775606 seconds.
-  path: Assets/Scripts/QMind/QMindTrainerDummy.cs
-  artifactKey: Guid(47de9927302e4c32881e47bf4a3fc469) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/QMind/QMindTrainerDummy.cs using Guid(47de9927302e4c32881e47bf4a3fc469) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b99bc270839e01cd5adc0369b322165a') in 0.000592 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 1.435233 seconds.
-  path: Assets/Scripts/QMind/QMindTrainerParams.cs
-  artifactKey: Guid(36f577ce40b04c6592aad8037e7c6be4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/QMind/QMindTrainerParams.cs using Guid(36f577ce40b04c6592aad8037e7c6be4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f55002f3d736bc9fef275cea60fbf5dd') in 0.000558 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 2.358859 seconds.
-  path: Assets/Scripts/QMind/Interfaces
-  artifactKey: Guid(fa34b1ed9eb144b48ac12afa73e47990) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/QMind/Interfaces using Guid(fa34b1ed9eb144b48ac12afa73e47990) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3bc248bb73ad20dd27f0603c2544d032') in 0.000468 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 5.057124 seconds.
-  path: Assets/Scripts/Tools
-  artifactKey: Guid(400085aa9ba71b24d94deb876765dbb0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Tools using Guid(400085aa9ba71b24d94deb876765dbb0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9d980f37b9bd51aca4993404afade9e2') in 0.000590 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 2.763850 seconds.
-  path: Assets/Scripts/Tools/Vector3Extensions.cs
-  artifactKey: Guid(b068fea4b857460a994afe05846d9831) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Tools/Vector3Extensions.cs using Guid(b068fea4b857460a994afe05846d9831) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a1a387e9361da535d66da2e7236b5061') in 0.000607 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 64.549091 seconds.
-  path: Assets/Scripts/QMind/Interfaces/IQMind.cs
-  artifactKey: Guid(34982fdb541b4cf2a78255fd87dc36c7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/QMind/Interfaces/IQMind.cs using Guid(34982fdb541b4cf2a78255fd87dc36c7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a8fbe22e15053cff0f8d45ab5d77ce73') in 0.000678 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 0.755227 seconds.
-  path: Assets/Scripts/QMind/Interfaces/IQMindTrainer.cs
-  artifactKey: Guid(b61b523ea8434c589cd5996b20c1a303) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/QMind/Interfaces/IQMindTrainer.cs using Guid(b61b523ea8434c589cd5996b20c1a303) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2e43085398ecf66b903e27ffa2ea4560') in 0.000694 seconds
+  Time since last request: 57.271671 seconds.
+  path: Assets/Scripts/GrupoC/MyQStates.cs
+  artifactKey: Guid(4740228b1147a8f44be89c022f51c06f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/GrupoC/MyQStates.cs using Guid(4740228b1147a8f44be89c022f51c06f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '87fbe39872a9391ca561293048583336') in 0.002602 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 0
 ========================================================================
@@ -463,53 +311,53 @@ Received Prepare
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image C:\Users\User\Documents\GitHub\InteligenciaArtificial\practica2\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
 Symbol file LoadedFromMemory doesn't match image C:\Users\User\Documents\GitHub\InteligenciaArtificial\practica2\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
-- Loaded All Assemblies, in  0.764 seconds
-Refreshing native plugins compatible for Editor in 2.78 ms, found 3 plugins.
+- Loaded All Assemblies, in  0.572 seconds
+Refreshing native plugins compatible for Editor in 2.91 ms, found 3 plugins.
 Native extension for WindowsStandalone target not found
 [Package Manager] Server::EnsureServerProcessIsRunning -- launch failed, reason: Unity was launched with the -noUpm command-line argument
 [Package Manager] UpmClient::Send -- Unable to send message (not connected to UPM process).
 [Package Manager] Cannot connect to Unity Package Manager local server
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  1.680 seconds
-Domain Reload Profiling: 2443ms
-	BeginReloadAssembly (133ms)
+- Finished resetting the current domain, in  0.979 seconds
+Domain Reload Profiling: 1550ms
+	BeginReloadAssembly (127ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (4ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (41ms)
-	RebuildCommonClasses (29ms)
-	RebuildNativeTypeToScriptingClass (11ms)
+		CreateAndSetChildDomain (45ms)
+	RebuildCommonClasses (28ms)
+	RebuildNativeTypeToScriptingClass (10ms)
 	initialDomainReloadingComplete (22ms)
-	LoadAllAssembliesAndSetupDomain (568ms)
-		LoadAssemblies (363ms)
+	LoadAllAssembliesAndSetupDomain (383ms)
+		LoadAssemblies (194ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (255ms)
-			TypeCache.Refresh (239ms)
-				TypeCache.ScanAssembly (226ms)
-			ScanForSourceGeneratedMonoScriptInfo (6ms)
-			ResolveRequiredComponents (10ms)
-	FinalizeReload (1680ms)
+		AnalyzeDomain (236ms)
+			TypeCache.Refresh (222ms)
+				TypeCache.ScanAssembly (211ms)
+			ScanForSourceGeneratedMonoScriptInfo (5ms)
+			ResolveRequiredComponents (9ms)
+	FinalizeReload (979ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (350ms)
+		SetupLoadedEditorAssemblies (375ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (3ms)
-			SetLoadedEditorAssemblies (2ms)
+			InitializePlatformSupportModulesInManaged (4ms)
+			SetLoadedEditorAssemblies (3ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (55ms)
-			ProcessInitializeOnLoadAttributes (239ms)
-			ProcessInitializeOnLoadMethodAttributes (48ms)
+			BeforeProcessingInitializeOnLoad (66ms)
+			ProcessInitializeOnLoadAttributes (248ms)
+			ProcessInitializeOnLoadMethodAttributes (52ms)
 			AfterProcessingInitializeOnLoad (2ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (13ms)
-Refreshing native plugins compatible for Editor in 2.69 ms, found 3 plugins.
+		AwakeInstancesAfterBackupRestoration (15ms)
+Refreshing native plugins compatible for Editor in 3.12 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 5139 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 42 unused Assets / (379.3 KB). Loaded Objects now: 5780.
+Unloading 5140 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 42 unused Assets / (388.0 KB). Loaded Objects now: 5780.
 Memory consumption went from 182.3 MB to 181.9 MB.
-Total: 3.446500 ms (FindLiveObjects: 0.510700 ms CreateObjectMapping: 0.156500 ms MarkObjects: 2.574800 ms  DeleteObjects: 0.203300 ms)
+Total: 6.640600 ms (FindLiveObjects: 1.263100 ms CreateObjectMapping: 0.214400 ms MarkObjects: 4.880400 ms  DeleteObjects: 0.278800 ms)
 
 Prepare: number of updated asset objects reloaded= 0
 AssetImportParameters requested are different than current active one (requested -> active):
@@ -523,3 +371,49 @@ AssetImportParameters requested are different than current active one (requested
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Prepare
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image C:\Users\User\Documents\GitHub\InteligenciaArtificial\practica2\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory doesn't match image C:\Users\User\Documents\GitHub\InteligenciaArtificial\practica2\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+- Loaded All Assemblies, in  1.676 seconds
+Refreshing native plugins compatible for Editor in 2.85 ms, found 3 plugins.
+Native extension for WindowsStandalone target not found
+[Package Manager] Server::EnsureServerProcessIsRunning -- launch failed, reason: Unity was launched with the -noUpm command-line argument
+[Package Manager] UpmClient::Send -- Unable to send message (not connected to UPM process).
+[Package Manager] Cannot connect to Unity Package Manager local server
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  2.779 seconds
+Domain Reload Profiling: 4454ms
+	BeginReloadAssembly (308ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (9ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (135ms)
+	RebuildCommonClasses (40ms)
+	RebuildNativeTypeToScriptingClass (20ms)
+	initialDomainReloadingComplete (38ms)
+	LoadAllAssembliesAndSetupDomain (1269ms)
+		LoadAssemblies (832ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (533ms)
+			TypeCache.Refresh (499ms)
+				TypeCache.ScanAssembly (464ms)
+			ScanForSourceGeneratedMonoScriptInfo (11ms)
+			ResolveRequiredComponents (23ms)
+	FinalizeReload (2779ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (621ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (4ms)
+			SetLoadedEditorAssemblies (5ms)
+			RefreshPlugins (0ms)
+			BeforeProcessingInitializeOnLoad (99ms)
+			ProcessInitializeOnLoadAttributes (433ms)
+			ProcessInitializeOnLoadMethodAttributes (78ms)
+			AfterProcessingInitializeOnLoad (2ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (15ms)

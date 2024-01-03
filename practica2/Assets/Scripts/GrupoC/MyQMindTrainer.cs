@@ -20,8 +20,8 @@ public class MyQMindTrainer : IQMindTrainer
     public int CurrentStep { get; private set; }
     public CellInfo AgentPosition { get; private set; }
     public CellInfo OtherPosition { get; private set; }
-    public float Return { get; }
-    public float ReturnAveraged { get; private set; }
+    public float Return { get; private set; }//ultima recompensa
+    public float ReturnAveraged { get; private set; }//promedio de recompensas cogidas 
 
     public string qLearningTrainerClass;
     private QMindTrainerParams qMindTrainerParams;
@@ -36,7 +36,19 @@ public class MyQMindTrainer : IQMindTrainer
     public event EventHandler OnEpisodeStarted;
     public event EventHandler OnEpisodeFinished;
 
-   
+    private bool _started = false;
+    public bool showSimulation = false;
+    public bool train;
+    public float agentSpeed = 1f;
+
+    //Recompensas
+    private float RecompensaPorPasoNOCazado;
+    //Penalizaciones
+    private float PenalizacionPorCazado;
+    private float PenalizacionPorAlcanzarPared;
+    private float PenalizacionPorSalirTablero;
+
+
 
     public void Start()
     {
@@ -59,6 +71,8 @@ public class MyQMindTrainer : IQMindTrainer
         _agentCell = _qMindTrainer.AgentPosition;
         _oponentCell = _qMindTrainer.OtherPosition;
 
+
+
         agent.transform.position = _worldInfo.ToWorldPosition(_agentCell);
         other.transform.position = _worldInfo.ToWorldPosition(_oponentCell);
     }
@@ -77,7 +91,31 @@ public class MyQMindTrainer : IQMindTrainer
         this.qMindTrainerParams = qMindTrainerParams;
         this.worldInfo = worldInfo;
         this.navigationAlgorithm = navigationAlgorithm;
+    }
 
+    public void Update()
+    {
+        if (!showSimulation)
+        {
+            _qMindTrainer.DoStep(train);
+        }
+        else
+        {
+            if (!_started || (agent.DestinationReached && other.DestinationReached))
+            {
+                agent.speed = agentSpeed;
+                other.speed = agentSpeed;
+
+                _started = true;
+                _qMindTrainer.DoStep(train);
+
+                _agentCell = _qMindTrainer.AgentPosition;
+                _oponentCell = _qMindTrainer.OtherPosition;
+
+                agent.destination = _worldInfo.ToWorldPosition(_agentCell);
+                other.destination = _worldInfo.ToWorldPosition(_oponentCell);
+            }
+        }
     }
 
     public void DoStep(bool train)
@@ -93,7 +131,7 @@ public class MyQMindTrainer : IQMindTrainer
         if (_agentCell.Equals(_oponentCell))
         {
             // Penalización por ser alcanzado
-            _qMindTrainer.Return = PenalizacionPorCazado;
+            //_qMindTrainer.Return = PenalizacionPorCazado;
 
             // Puedes reiniciar el episodio o hacer alguna otra acción en caso de ser alcanzado
             // Puedes reiniciar la posición del agente, por ejemplo
@@ -103,21 +141,21 @@ public class MyQMindTrainer : IQMindTrainer
         else
         {
             // Verifica si el agente ha chocado con una pared
-            if (_worldInfo.IsWall(_agentCell.x, _agentCell.y))
-            {
-                // Penalización por chocar con una pared
-                _qMindTrainer.Return = PenaltyForHittingWall;
-            }
-
-            // Verifica si el agente ha salido del tablero
-            if (!IsInsideBoard(_agentCell))
-            {
-                // Penalización por salirse del tablero
-                _qMindTrainer.Return = PenaltyForLeavingBoard;
-            }
-
-            // Puedes asignar una pequeña recompensa por cada paso que no lleva al atrapado
-            _qMindTrainer.Return += RewardForNonCaughtStep;
+            //if (_worldInfo.IsWall(_agentCell.x, _agentCell.y))
+            //{
+            //    // Penalización por chocar con una pared
+            //    _qMindTrainer.Return = PenalizacionPorAlcanzarPared;
+            //}
+            //
+            //// Verifica si el agente ha salido del tablero
+            //if (!IsLimit(_agentCell))
+            //{
+            //    // Penalización por salirse del tablero
+            //    _qMindTrainer.Return = PenalizacionPorSalirTablero;
+            //}
+            //
+            //// Pequeña recompensa por cada paso que no lleva a ser cazado
+            //_qMindTrainer.Return += RecompensaPorPasoNOCazado;
         }
 
         /*

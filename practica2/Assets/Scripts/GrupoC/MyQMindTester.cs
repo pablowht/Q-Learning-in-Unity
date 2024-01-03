@@ -7,11 +7,12 @@ public class MyQMindTester : IQMind
 {
     public void Initialize(WorldInfo worldInfo)
     {
-
+        Debug.Log("QMindDummy: initialized");
     }
 
-    CellInfo IQMind.GetNextStep(CellInfo currentPosition, CellInfo otherPosition)
+    public CellInfo GetNextStep(CellInfo currentPosition, CellInfo otherPosition)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("QMind: GetNextStep");
+        return null;
     }
 }
