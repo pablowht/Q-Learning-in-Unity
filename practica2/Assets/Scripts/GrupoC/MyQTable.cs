@@ -1,57 +1,93 @@
 using NavigationDJIA.World;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
-public class MyQTable : MonoBehaviour
+public class MyQTable
 {
-    //Tabla Q
-    public float[,] tableQ { get; set; }
-    private int numeroFilas { get; set; }
-    private int numeroColumnas { get; set; }
+    //Quizás hay que pasar la clase MyQState aquí mediante un struct para poder utilizar GetHashCode y Equals
+    public Dictionary<MyQStates, float[]> qTable = new();
+    //public List<float> qTable;
 
-    private string filePath = "Assets/Scripts/GrupoC/TablaQ.csv";
+    private string qTableName;
+    private string qTablePath;
 
+    private int numStates = 384;
+    private int numActions = 4;
+    private int qTableSize;
 
-    public void InitializeTable()
+    public MyQTable(int numTable, int numEpocas, int bestRewardTable)
     {
-        this.numeroFilas = 16;
-        this.numeroColumnas = 4;
-        //Cálculo del grid 
-        this.tableQ = new float[numeroFilas, numeroColumnas]; //Numero de acciones posibles (norte, sur, este, oeste)
+        //Nombre Tabla
+        qTableName = string.Format("Q{0}-{1}-{2}", numTable, numEpocas, bestRewardTable); ; //Q2-20000-130
+        qTablePath = Application.dataPath + "/Scripts/QTables/" + qTableName + ".csv";
         
-        for (int i = 0; i < this.numeroFilas; i++)
+        //Datos Tabla
+        qTableSize = numStates * numActions;
+        qTable = new Dictionary<MyQStates, float[]>(qTableSize);
+
+        InitializeQTable();
+        //
+
+    }
+
+    private void InitializeQTable()
+    {
+        List<bool[]> cellStateCombinations = GenerateAllBooleanCombinations(4);
+
+        for (int rangeDistance = 0; rangeDistance <= 2; rangeDistance++)
         {
-            for (int j = 0; j < this.numeroColumnas; j++)
+            for (int rangeOrientation = 0; rangeOrientation <= 7; rangeOrientation++)
             {
-                this.tableQ[i, j] = 0.0f;
+                foreach (bool[] cellState in cellStateCombinations)
+                {
+                    MyQStates state = new(rangeDistance, rangeOrientation, cellState);
+                    qTable[state] = new float[numActions];
+                }
             }
         }
     }
 
-    public void UpdateTable(int row, int col, float valorQ)
+    private List<bool[]> GenerateAllBooleanCombinations(int length)
     {
-        this.tableQ[row, col] = valorQ;
-    }
+        List<bool[]> combinations = new List<bool[]>();
+        int totalCombinations = (int)Math.Pow(2, length);
 
-    public float GetQValue(int row, int col)
-    {
-            return this.tableQ[row, col];
-    }
-
-    public float GetMaxQValue(int row)
-    {
-        float maxQ = this.tableQ[0, 0];
-
-        for (int i = 1; i < this.numeroColumnas; i++)
+        for (int i = 0; i < totalCombinations; i++)
         {
-            if (this.tableQ[row, i] > maxQ)
+            bool[] combination = new bool[length];
+            for (int j = 0; j < length; j++)
             {
-                maxQ = this.tableQ[row, i];
+                combination[j] = (i & (1 << j)) != 0;
             }
+            combinations.Add(combination);
         }
 
-        return maxQ;
+        return combinations;
+    }
+
+    public void SaveTableToCSV()
+    {
+        Debug.Log("GUARDANDO");
+        StringBuilder csvTable = new StringBuilder();
+        //Cabecera de la tabla
+        csvTable.AppendLine("RangeDistance;RangeOrientation;CellState;Norte;Este;Sur;Oeste");
+
+        foreach (var kvp in qTable)
+        {
+            MyQStates state = kvp.Key;
+            float[] qValues = kvp.Value;
+            string cellStateStr = string.Join(",", state.cellState.Select(b => b.ToString()));
+
+            csvTable.AppendLine($"{state.rangeDistance};{state.orientation};{cellStateStr};{qValues[0]};{qValues[1]};{qValues[2]};{qValues[3]}");
+        }
+
+        File.WriteAllText(qTablePath, csvTable.ToString());
     }
 }

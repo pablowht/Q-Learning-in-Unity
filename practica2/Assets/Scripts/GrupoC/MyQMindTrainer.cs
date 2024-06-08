@@ -12,7 +12,7 @@ using NavigationDJIA.Algorithms.AStar;
 using UnityEngine.Assertions;
 using Unity.VisualScripting;
 
-public class MyQMindTrainer : IQMindTrainer
+public class MyQMindTrainer //: IQMindTrainer
 {
     public Movable agent;
     public Movable other;
@@ -24,8 +24,8 @@ public class MyQMindTrainer : IQMindTrainer
     public float Return { get; private set; } //Ultima recompensa
     public float ReturnAveraged { get; private set; } //Promedio de recompensas cogidas 
 
-    public event EventHandler OnEpisodeStarted;
-    public event EventHandler OnEpisodeFinished;
+    //public event EventHandler OnEpisodeStarted;
+    //public event EventHandler OnEpisodeFinished;
 
     private INavigationAlgorithm navigationAlgorithm;
     private WorldInfo worldInfo;
@@ -69,8 +69,8 @@ public class MyQMindTrainer : IQMindTrainer
         Type qMindTrainerType = System.Type.GetType(qLearningTrainerClass);
         Assert.IsNotNull(qMindTrainerType);
         _qMindTrainer = (IQMindTrainer)Activator.CreateInstance(qMindTrainerType);
-        _qMindTrainer.OnEpisodeStarted += EpisodeStarted;
-        _qMindTrainer.OnEpisodeFinished += EpisodeFinished;
+        //_qMindTrainer.OnEpisodeStarted += EpisodeStarted;
+        //_qMindTrainer.OnEpisodeFinished += EpisodeFinished;
 
         _qMindTrainer.Initialize(qMindTrainerParams, _worldInfo, new AStarNavigation());
     }
@@ -82,23 +82,24 @@ public class MyQMindTrainer : IQMindTrainer
         this.navigationAlgorithm = navigationAlgorithm;
     }
 
-    private void EpisodeStarted(object sender, EventArgs e)
-    {
-        _agentCell = _qMindTrainer.AgentPosition;
-        _oponentCell = _qMindTrainer.OtherPosition;
+    //private void EpisodeStarted(object sender, EventArgs e)
+    //{
+    //    //_agentCell = _qMindTrainer.AgentPosition;
+    //    //_oponentCell = _qMindTrainer.OtherPosition;
+    //    //state = randomState();
 
-        agent.transform.position = _worldInfo.ToWorldPosition(_agentCell);
-        other.transform.position = _worldInfo.ToWorldPosition(_oponentCell);
-    }
+    //    agent.transform.position = _worldInfo.ToWorldPosition(_agentCell);
+    //    other.transform.position = _worldInfo.ToWorldPosition(_oponentCell);
+    //}
 
-    private void EpisodeFinished(object sender, EventArgs e)
-    {
-        if (qMindTrainerParams.episodes == -1 || _qMindTrainer.CurrentEpisode >= qMindTrainerParams.episodes)
-        {
-            Debug.Log($"Max episodes reached, stopping simulation");
-            EditorApplication.ExitPlaymode();
-        }
-    }
+    //private void EpisodeFinished(object sender, EventArgs e)
+    //{
+    //    if (qMindTrainerParams.episodes == -1 || _qMindTrainer.CurrentEpisode >= qMindTrainerParams.episodes)
+    //    {
+    //        Debug.Log($"Max episodes reached, stopping simulation");
+    //        EditorApplication.ExitPlaymode();
+    //    }
+    //}
 
     public void Update()
     {
@@ -127,9 +128,6 @@ public class MyQMindTrainer : IQMindTrainer
 
     public void DoStep(bool train)
     {
-        // Realiza un paso en el entrenamiento
-        _qMindTrainer.DoStep(train);
-
         // Actualiza la posición del agente y del oponente
         _agentCell = _qMindTrainer.AgentPosition;
         _oponentCell = _qMindTrainer.OtherPosition;
@@ -143,7 +141,7 @@ public class MyQMindTrainer : IQMindTrainer
             // Puedes reiniciar el episodio o hacer alguna otra acción en caso de ser alcanzado
             // Puedes reiniciar la posición del agente, por ejemplo
             _qMindTrainer.Initialize(qMindTrainerParams, _worldInfo, new AStarNavigation());
-            OnEpisodeStarted?.Invoke(this, EventArgs.Empty);
+            //OnEpisodeStarted?.Invoke(this, EventArgs.Empty);
         }
         else
         {
@@ -183,11 +181,11 @@ public class MyQMindTrainer : IQMindTrainer
     private void updateWithReward(int row, int col)
     {
         //ELEFANTE
-        float recompensa = 100;
+        //float recompensa = 100;
 
-        float newQvalue = (1 - qMindTrainerParams.alpha) * tablaQ.GetQValue(row, col) + qMindTrainerParams.alpha * (recompensa + qMindTrainerParams.gamma * tablaQ.GetMaxQValue(row));
+        //float newQvalue = (1 - qMindTrainerParams.alpha) * tablaQ.GetQValue(row, col) + qMindTrainerParams.alpha * (recompensa + qMindTrainerParams.gamma * tablaQ.GetMaxQValue(row));
 
-        tablaQ.UpdateTable(row, col, newQvalue);
+        //tablaQ.UpdateTable(row, col, newQvalue);
     }
 
     private int selectAction()
@@ -210,6 +208,6 @@ public class MyQMindTrainer : IQMindTrainer
 
     private void randomState()
     {
-
+        return;
     }
 }
