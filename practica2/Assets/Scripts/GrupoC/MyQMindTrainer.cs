@@ -1,213 +1,147 @@
-
+using System;
 using NavigationDJIA.Interfaces;
 using NavigationDJIA.World;
-using QMind;
 using QMind.Interfaces;
 using UnityEngine;
-using System;
-using Components.QLearning;
-using UnityEditor;
-using Components;
-using NavigationDJIA.Algorithms.AStar;
-using UnityEngine.Assertions;
-using Unity.VisualScripting;
+//using Random = UnityEngine.Random;
 
-public class MyQMindTrainer //: IQMindTrainer
+namespace QMind
 {
-    public Movable agent;
-    public Movable other;
-
-    public int CurrentEpisode { get; private set; }
-    public int CurrentStep { get; private set; }
-    public CellInfo AgentPosition { get; private set; }
-    public CellInfo OtherPosition { get; private set; }
-    public float Return { get; private set; } //Ultima recompensa
-    public float ReturnAveraged { get; private set; } //Promedio de recompensas cogidas 
-
-    //public event EventHandler OnEpisodeStarted;
-    //public event EventHandler OnEpisodeFinished;
-
-    private INavigationAlgorithm navigationAlgorithm;
-    private WorldInfo worldInfo;
-    private QMindTrainerParams qMindTrainerParams;
-
-    private bool _started = false;
-    public bool showSimulation = false;
-    public bool train;
-    public float agentSpeed = 1f;
-
-
-    public string qLearningTrainerClass;
-
-    private IQMindTrainer _qMindTrainer;
-    private CellInfo _agentCell;
-    private CellInfo _oponentCell;
-    private WorldInfo _worldInfo;
-
-
-
-
-
-    //Recompensas
-    private float RecompensaPorPasoNOCazado;
-    //Penalizaciones
-    private float PenalizacionPorCazado;
-    private float PenalizacionPorAlcanzarPared;
-    private float PenalizacionPorSalirTablero;
-
-    //Tabla Q
-    private MyQTable tablaQ;
-
-
-    public void Start()
+    public class MyQMindTrainer : IQMindTrainer
     {
-        Assert.IsNotNull(other);
-        Assert.IsNotNull(agent);
+        //
+        public int CurrentEpisode { get; }
+        public int CurrentStep { get; }
+        public CellInfo AgentPosition { get; private set; }
+        public CellInfo OtherPosition { get; private set; }
+        public float Return { get; }
+        public float ReturnAveraged { get; }
+        public event EventHandler OnEpisodeStarted;
+        public event EventHandler OnEpisodeFinished;
 
-        _worldInfo = WorldManager.Instance.WorldInfo;
+        //Par√°metros del algoritmo
+        QMindTrainerParams qMindParams;
+        WorldInfo world;
+        INavigationAlgorithm navAlgorithm;
 
-        Type qMindTrainerType = System.Type.GetType(qLearningTrainerClass);
-        Assert.IsNotNull(qMindTrainerType);
-        _qMindTrainer = (IQMindTrainer)Activator.CreateInstance(qMindTrainerType);
-        //_qMindTrainer.OnEpisodeStarted += EpisodeStarted;
-        //_qMindTrainer.OnEpisodeFinished += EpisodeFinished;
+        //Tabla Q
+        MyQTable qTable;
+        int qTableNumber = 0;
+        int qTableEpocas = 0;
+        int qTableBestReward = 0;
 
-        _qMindTrainer.Initialize(qMindTrainerParams, _worldInfo, new AStarNavigation());
-    }
 
-    public void Initialize(QMindTrainerParams qMindTrainerParams, WorldInfo worldInfo, INavigationAlgorithm navigationAlgorithm)
-    {
-        this.qMindTrainerParams = qMindTrainerParams;
-        this.worldInfo = worldInfo;
-        this.navigationAlgorithm = navigationAlgorithm;
-    }
-
-    //private void EpisodeStarted(object sender, EventArgs e)
-    //{
-    //    //_agentCell = _qMindTrainer.AgentPosition;
-    //    //_oponentCell = _qMindTrainer.OtherPosition;
-    //    //state = randomState();
-
-    //    agent.transform.position = _worldInfo.ToWorldPosition(_agentCell);
-    //    other.transform.position = _worldInfo.ToWorldPosition(_oponentCell);
-    //}
-
-    //private void EpisodeFinished(object sender, EventArgs e)
-    //{
-    //    if (qMindTrainerParams.episodes == -1 || _qMindTrainer.CurrentEpisode >= qMindTrainerParams.episodes)
-    //    {
-    //        Debug.Log($"Max episodes reached, stopping simulation");
-    //        EditorApplication.ExitPlaymode();
-    //    }
-    //}
-
-    public void Update()
-    {
-        if (!showSimulation)
+        public void Initialize(QMindTrainerParams qMindTrainerParams, WorldInfo worldInfo, INavigationAlgorithm navigationAlgorithm)
         {
-            _qMindTrainer.DoStep(train);
+            Debug.Log("MyQMindTrainer: initialized");
+            world = worldInfo;
+
+            AgentPosition = worldInfo.RandomCell();
+            OtherPosition = worldInfo.RandomCell();
+
+            qMindParams = qMindTrainerParams;
+            navAlgorithm = navigationAlgorithm;
+
+            //Inicializar tabla Q
+            qTableNumber += 1;
+            qTableEpocas = CurrentEpisode;
+            //qTableBestReward += 1;
+            qTable = new MyQTable(qTableNumber, qTableEpocas, qTableBestReward);
+            qTable.InitializeQTable();
+
+            OnEpisodeStarted?.Invoke(this, EventArgs.Empty);
         }
-        else
+
+        MyQStates currentState;
+        int distance;
+        int orientation;
+        bool[] cellState;
+
+        int action;
+        float QValue;
+        float accionAleatoria = 0.1f;
+
+        public void DoStep(bool train)
         {
-            if (!_started || (agent.DestinationReached && other.DestinationReached))
+            Debug.Log("MyQMindTrainer: DoStep");
+
+            //Creamos el estado actual
+
+            distance = DiscretizeDistance(AgentPosition.x, AgentPosition.y, OtherPosition.x, OtherPosition.y);
+            orientation = DiscretizeOrientation(AgentPosition.x, AgentPosition.y, OtherPosition.x, OtherPosition.y);
+            cellState = CalculateCellState(AgentPosition);
+
+            currentState = new MyQStates(distance, orientation, cellState);
+
+            //Seleccionamos una acci√≥n de forma balanceada
+            if (accionAleatoria < qMindParams.epsilon)
             {
-                agent.speed = agentSpeed;
-                other.speed = agentSpeed;
+                action = UnityEngine.Random.Range(0, 4);
+                accionAleatoria += 0.05f;
+            }
+            else
+            {
+                action = qTable.GetBestAction(currentState);
+                accionAleatoria = UnityEngine.Random.Range(0.1f, qMindParams.epsilon);
+            }
 
-                _started = true;
-                _qMindTrainer.DoStep(train);
+            if (qTable.qTableDictionary.TryGetValue(currentState, out float[] qValues))
+            {
+                QValue = qValues[action];
+            }
 
-                //_agentCell = _qMindTrainer.AgentPosition;
-                //_oponentCell = _qMindTrainer.OtherPosition;
+        }
 
-                agent.destination = _worldInfo.ToWorldPosition(_agentCell);
-                other.destination = _worldInfo.ToWorldPosition(_oponentCell);
+        private int DiscretizeDistance(int xAgent, int yAgent, int xEnemy, int yEnemy)
+        {
+            int manhattanDistance = Math.Abs(xAgent - xEnemy) + Math.Abs(yAgent - yEnemy);
+
+            if (manhattanDistance <= 5)
+            {
+                return 0;
+            }
+            else if (manhattanDistance > 5 && manhattanDistance <= 20)
+            {
+                return 1;
+            }
+            else
+            {
+                return 2;
             }
         }
-    }
 
-    public void DoStep(bool train)
-    {
-        // Actualiza la posiciÛn del agente y del oponente
-        _agentCell = _qMindTrainer.AgentPosition;
-        _oponentCell = _qMindTrainer.OtherPosition;
-
-        // Verifica si el agente ha sido alcanzado por el oponente
-        if (_agentCell.Equals(_oponentCell))
+        private int DiscretizeOrientation(int xAgent, int yAgent, int xEnemy, int yEnemy)
         {
-            // PenalizaciÛn por ser alcanzado
-            //_qMindTrainer.Return = PenalizacionPorCazado;
+            float deltaX = xAgent - xEnemy;
+            float deltaY = yAgent - yEnemy;
+            float angleRadians = Mathf.Atan2(deltaY, deltaX);
 
-            // Puedes reiniciar el episodio o hacer alguna otra acciÛn en caso de ser alcanzado
-            // Puedes reiniciar la posiciÛn del agente, por ejemplo
-            _qMindTrainer.Initialize(qMindTrainerParams, _worldInfo, new AStarNavigation());
-            //OnEpisodeStarted?.Invoke(this, EventArgs.Empty);
-        }
-        else
-        {
-            // Verifica si el agente ha chocado con una pared
-            //if (_worldInfo.IsWall(_agentCell.x, _agentCell.y))
-            //{
-            //    // PenalizaciÛn por chocar con una pared
-            //    _qMindTrainer.Return = PenalizacionPorAlcanzarPared;
-            //}
-            //
-            //// Verifica si el agente ha salido del tablero
-            //if (!IsLimit(_agentCell))
-            //{
-            //    // PenalizaciÛn por salirse del tablero
-            //    _qMindTrainer.Return = PenalizacionPorSalirTablero;
-            //}
-            //
-            //// PequeÒa recompensa por cada paso que no lleva a ser cazado
-            //_qMindTrainer.Return += RecompensaPorPasoNOCazado;
+            float angleDegrees = angleRadians * Mathf.Rad2Deg;
+            if (angleDegrees < 0)
+            {
+                angleDegrees += 360;
+            }
+
+            int discreteOrientation = Mathf.FloorToInt(angleDegrees / 45);
+
+            return discreteOrientation;
         }
 
-        /*
-         Otras cosas que deberÌamos poner:
-        1. Actualizar la tabla Q: Calculando los nuevos valores de Q en funciÛn de las acciones
-        tomadas y las recompensas
-        2. Calcular als recomenpensas: Definir como asignar las recompensas
-        3. Actualizar las posiciones del agente y del zombie seg˙n el aprendizaje
-         */
-
-        // Mueve los objetos en el mundo de Unity a las nuevas posiciones
-        agent.transform.position = _worldInfo.ToWorldPosition(_agentCell);
-        other.transform.position = _worldInfo.ToWorldPosition(_oponentCell);
-
-
-    }
-
-    private void updateWithReward(int row, int col)
-    {
-        //ELEFANTE
-        //float recompensa = 100;
-
-        //float newQvalue = (1 - qMindTrainerParams.alpha) * tablaQ.GetQValue(row, col) + qMindTrainerParams.alpha * (recompensa + qMindTrainerParams.gamma * tablaQ.GetMaxQValue(row));
-
-        //tablaQ.UpdateTable(row, col, newQvalue);
-    }
-
-    private int selectAction()
-    {
-        int accion;
-        
-        if (qMindTrainerParams.epsilon > 0.5)
+        private bool[] CalculateCellState(CellInfo AgentCell)
         {
-            accion = UnityEngine.Random.Range(0, 4);
-        }
-        else
-        {
-            //ELEFANTE
-            //Crear un random que dependiendo de su valor elija hacer una accion aleatoria o una buena columna
-            accion = UnityEngine.Random.Range(0, 4);
-        }
-        
-        return accion;
-    }
+            bool[] contiguousCells = new bool[4];
+            CellInfo norteCell = new CellInfo(AgentCell.x, AgentCell.y + 1);
+            CellInfo esteCell = new CellInfo(AgentCell.x + 1, AgentCell.y);
+            CellInfo surCell = new CellInfo(AgentCell.x, AgentCell.y - 1);
+            CellInfo oesteCell = new CellInfo(AgentCell.x - 1, AgentCell.y);
 
-    private void randomState()
-    {
-        return;
+            contiguousCells[0] = norteCell.Walkable;
+            contiguousCells[1] = esteCell.Walkable;
+            contiguousCells[2] = surCell.Walkable;
+            contiguousCells[3] = oesteCell.Walkable;
+
+            return contiguousCells;
+        }
+
     }
 }

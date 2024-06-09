@@ -12,7 +12,7 @@ using static UnityEngine.Rendering.DebugUI;
 public class MyQTable
 {
     //Quizás hay que pasar la clase MyQState aquí mediante un struct para poder utilizar GetHashCode y Equals
-    public Dictionary<MyQStates, float[]> qTable = new();
+    public Dictionary<MyQStates, float[]> qTableDictionary = new();
     //public List<float> qTable;
 
     private string qTableName;
@@ -30,14 +30,12 @@ public class MyQTable
         
         //Datos Tabla
         qTableSize = numStates * numActions;
-        qTable = new Dictionary<MyQStates, float[]>(qTableSize);
+        qTableDictionary = new Dictionary<MyQStates, float[]>(qTableSize);
 
-        InitializeQTable();
-        //
-
+        //InitializeQTable();
     }
 
-    private void InitializeQTable()
+    public void InitializeQTable()
     {
         List<bool[]> cellStateCombinations = GenerateAllBooleanCombinations(4);
 
@@ -48,10 +46,31 @@ public class MyQTable
                 foreach (bool[] cellState in cellStateCombinations)
                 {
                     MyQStates state = new(rangeDistance, rangeOrientation, cellState);
-                    qTable[state] = new float[numActions];
+                    qTableDictionary[state] = new float[numActions];
                 }
             }
         }
+    }
+
+    public int GetBestAction(MyQStates currentState)
+    {
+        //int action;
+        int highestAction = 0;
+        float highestValue = float.NegativeInfinity;
+
+        if(qTableDictionary.TryGetValue(currentState, out float[] qValues))
+        {
+            for (int i = 0; i < qValues.Length; i++)
+            {
+                if (qValues[i] > highestValue)
+                {
+                    highestValue = qValues[i];
+                    highestAction = i;
+                }
+            }
+        }
+
+        return highestAction;
     }
 
     private List<bool[]> GenerateAllBooleanCombinations(int length)
@@ -79,7 +98,7 @@ public class MyQTable
         //Cabecera de la tabla
         csvTable.AppendLine("RangeDistance;RangeOrientation;CellState;Norte;Este;Sur;Oeste");
 
-        foreach (var kvp in qTable)
+        foreach (var kvp in qTableDictionary)
         {
             MyQStates state = kvp.Key;
             float[] qValues = kvp.Value;

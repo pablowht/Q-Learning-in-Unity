@@ -6,7 +6,7 @@ using UnityEngine;
 public class MyQStates
 {
     //Estados
-    //1. Rango de expansión: 0, 1, 2
+    //1. Rango de expansión: 0, 1, 2 // 0 más cercano y 2 más lejano
     //2. Orientacion: 0, 1, 2, 3, 4, 5, 6, 7
     //3. Estado de la celda: Muros true/false
     //Numero de estados: 3 * 8 * 2^4 = 384
