@@ -1,6 +1,7 @@
 using NavigationDJIA.World;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MyQStates
@@ -19,5 +20,29 @@ public class MyQStates
         this.rangeDistance = rangeDistance;
         this.orientation = orientation;
         this.cellState = cellState;
+    }
+
+
+    public override bool Equals(object obj)
+    {
+        if (obj is MyQStates other)
+        {
+            return rangeDistance == other.rangeDistance &&
+                   orientation == other.orientation &&
+                   cellState.SequenceEqual(other.cellState);
+        }
+        return false;
+    }
+
+    public override int GetHashCode()
+    {
+        int hash = 17;
+        hash = hash * 31 + rangeDistance.GetHashCode();
+        hash = hash * 31 + orientation.GetHashCode();
+        foreach (bool cell in cellState)
+        {
+            hash = hash * 31 + cell.GetHashCode();
+        }
+        return hash;
     }
 }
