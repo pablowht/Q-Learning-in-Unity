@@ -53,7 +53,7 @@ public class MyQTable
 
     public float GetBestQValue(MyQStates state, float[] qValues)
     {
-        float highestQValue = 0;
+        float highestQValue = -99.99f;
 
         foreach (var qValue in qValues)
         {
@@ -70,7 +70,7 @@ public class MyQTable
     {
         //int action;
         int highestAction = 0;
-        float highestValue = float.NegativeInfinity;
+        float highestValue = -99.99f;
 
         if(qTableDictionary.TryGetValue(currentState, out float[] qValues))
         {
@@ -83,7 +83,7 @@ public class MyQTable
                 }
             }
         }
-
+        Debug.Log("highestValue: " + highestValue);
         return highestAction;
     }
 

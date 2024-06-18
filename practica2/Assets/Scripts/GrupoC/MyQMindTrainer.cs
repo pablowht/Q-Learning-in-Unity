@@ -2,10 +2,7 @@ using System;
 using NavigationDJIA.Interfaces;
 using NavigationDJIA.World;
 using QMind.Interfaces;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
-//using Random = UnityEngine.Random;
 
 namespace QMind
 {
@@ -50,9 +47,11 @@ namespace QMind
             navAlgorithm = navigationAlgorithm;
             navAlgorithm.Initialize(world);
 
-            //qTableNumber += 1;
             qTable = new MyQTable();
-            qTable.InitializeQTable();
+            //qTable.InitializeQTable();
+            qTableNumber = 11;
+            string pathTable = qTable.ReturnNewestTable(Application.dataPath + "/Scripts/QTables/");
+            qTable.LoadTable(pathTable);
         }
 
         MyQStates currentState;
@@ -103,15 +102,16 @@ namespace QMind
             //}
 
             //Seleccionamos una acción de forma balanceada
+            //accionAleatoria = UnityEngine.Random.Range(0.0f, 1.0f);
             if (accionAleatoria < qMindParams.epsilon)
             {
-                action = UnityEngine.Random.Range(0, 4);
+                action = qTable.GetBestAction(currentState);
                 accionAleatoria += 0.05f;
             }
             else
             {
-                action = qTable.GetBestAction(currentState);
-                accionAleatoria = UnityEngine.Random.Range(0.1f, 1.0f);
+                action = UnityEngine.Random.Range(0, 4);
+                accionAleatoria = UnityEngine.Random.Range(0.1f, qMindParams.epsilon);
             }
 
             //Siguiente estado
@@ -138,7 +138,14 @@ namespace QMind
             ReturnAveraged = Return / totalSteps;
             totalSteps++;
 
-            QValueNew = (1 - qMindParams.alpha) * QValueCurrent + qMindParams.alpha * (reward + qMindParams.gamma * QValueNextState);
+            if(reward > -100.0f)
+            {
+                QValueNew = (1 - qMindParams.alpha) * QValueCurrent + qMindParams.alpha * (reward + qMindParams.gamma * QValueNextState);
+            }
+            else
+            {
+                QValueNew = reward;
+            }
 
             maxQValue = QValueNew > maxQValue ? QValueNew : maxQValue;
 
@@ -159,7 +166,10 @@ namespace QMind
                 RestartEpisode();
             }
 
-            OtherPosition = navAlgorithm.GetPath(OtherPosition, AgentPosition, 200)[0];
+            if (navAlgorithm.GetPath(OtherPosition, AgentPosition, 200).Length > 0)
+            {
+                OtherPosition = navAlgorithm.GetPath(OtherPosition, AgentPosition, 200)[0];
+            }
             AgentPosition = world[nextStateCell.x, nextStateCell.y];
         }
         
@@ -229,9 +239,8 @@ namespace QMind
 
             if (nextStateCell == OtherPosition || AgentPosition == OtherPosition)
             {
-                reward = -50.0f;
+                reward = -100.0f;
             }
-
 
             //Celda con muro o fuera de mapa
             //->Pillado por el zombie: -50
@@ -422,7 +431,6 @@ namespace QMind
             AgentPosition = world.RandomCell();
             OtherPosition = world.RandomCell();
 
-            
 
             OnEpisodeStarted?.Invoke(this, EventArgs.Empty);
         }
