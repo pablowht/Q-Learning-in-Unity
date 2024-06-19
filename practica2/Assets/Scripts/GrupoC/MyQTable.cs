@@ -83,7 +83,7 @@ public class MyQTable
                 }
             }
         }
-        Debug.Log("highestValue: " + highestValue);
+        //Debug.Log("highestValue: " + highestValue);
         return highestAction;
     }
 

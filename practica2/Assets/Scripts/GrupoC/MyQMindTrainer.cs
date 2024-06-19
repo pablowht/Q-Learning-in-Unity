@@ -40,7 +40,10 @@ namespace QMind
 
             qMindParams = qMindTrainerParams;
             qMindParams.episodes = 300000;
-            qMindParams.episodesBetweenSaves = 20000;
+            qMindParams.episodesBetweenSaves = 10000;
+            qMindParams.epsilon = 0.85f;
+            qMindParams.alpha = 0.3f;
+            qMindParams.gamma = 0.7f;
 
             totalSteps = 1;
 
@@ -49,7 +52,7 @@ namespace QMind
 
             qTable = new MyQTable();
             //qTable.InitializeQTable();
-            qTableNumber = 11;
+            qTableNumber = 19;
             string pathTable = qTable.ReturnNewestTable(Application.dataPath + "/Scripts/QTables/");
             qTable.LoadTable(pathTable);
         }
@@ -102,16 +105,16 @@ namespace QMind
             //}
 
             //Seleccionamos una acción de forma balanceada
-            //accionAleatoria = UnityEngine.Random.Range(0.0f, 1.0f);
+            accionAleatoria = UnityEngine.Random.Range(0.0f, 1.0f);
             if (accionAleatoria < qMindParams.epsilon)
             {
-                action = qTable.GetBestAction(currentState);
-                accionAleatoria += 0.05f;
+                action = UnityEngine.Random.Range(0, 4);
+                //accionAleatoria += 0.05f;
             }
             else
             {
-                action = UnityEngine.Random.Range(0, 4);
-                accionAleatoria = UnityEngine.Random.Range(0.1f, qMindParams.epsilon);
+                action = qTable.GetBestAction(currentState);
+                //accionAleatoria = UnityEngine.Random.Range(0.1f, qMindParams.epsilon);
             }
 
             //Siguiente estado
@@ -419,7 +422,8 @@ namespace QMind
         }
 
 
-        
+        //int rotacionEsquinas = 1;
+
         private void StartEpisode()
         {
             CurrentEpisode += 1;
@@ -428,7 +432,22 @@ namespace QMind
 
             newEpisode = false;
 
+            if (CurrentEpisode == 30000)
+            {
+                qMindParams.epsilon = 0.5f;
+            }
+            if (CurrentEpisode == 60000)
+            {
+                qMindParams.epsilon = 0.3f;
+            }
+            if (CurrentEpisode == 80000)
+            {
+                qMindParams.epsilon = 0.2f;
+            }
+
             AgentPosition = world.RandomCell();
+
+
             OtherPosition = world.RandomCell();
 
 
