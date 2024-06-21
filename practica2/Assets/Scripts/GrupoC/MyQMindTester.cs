@@ -34,12 +34,20 @@ public class MyQMindTester : IQMind
 
         currentState = new MyQStates(distance, orientation, cells);
 
-        bestAction = qTableTester.GetBestAction(currentState);
+        bestAction = qTableTester.GetBestAction(currentState, -1);
 
-        nextCell = ReturnCellAction(bestAction, currentPosition);
-        nextCell = world[nextCell.x, nextCell.y];
+        if(bestAction == -1)
+        {
+            return currentPosition;
+        }
+        else
+        {
+            nextCell = ReturnCellAction(bestAction, currentPosition);
+            nextCell = world[nextCell.x, nextCell.y];
 
-        return nextCell;
+            return nextCell;
+        }
+
     }
 
     private CellInfo ReturnCellAction(int action, CellInfo AgentPosition)

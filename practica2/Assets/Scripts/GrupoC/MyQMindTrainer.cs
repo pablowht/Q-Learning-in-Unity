@@ -40,10 +40,8 @@ namespace QMind
 
             qMindParams = qMindTrainerParams;
             qMindParams.episodes = 300000;
-            qMindParams.episodesBetweenSaves = 10000;
+            qMindParams.episodesBetweenSaves = 20000;
             qMindParams.epsilon = 0.85f;
-            qMindParams.alpha = 0.3f;
-            qMindParams.gamma = 0.7f;
 
             totalSteps = 1;
 
@@ -113,7 +111,7 @@ namespace QMind
             }
             else
             {
-                action = qTable.GetBestAction(currentState);
+                action = qTable.GetBestAction(currentState, 0);
                 //accionAleatoria = UnityEngine.Random.Range(0.1f, qMindParams.epsilon);
             }
 
@@ -149,12 +147,13 @@ namespace QMind
             {
                 QValueNew = reward;
             }
+            //Debug.Log(QValueNew);
 
             maxQValue = QValueNew > maxQValue ? QValueNew : maxQValue;
 
             qValuesCurrentState[action] = QValueNew;
 
-            if (reward <= -50.0f)
+            if (AgentPosition == OtherPosition || reward <= -50.0f)
             {
                 RestartEpisode();
             }
@@ -240,19 +239,63 @@ namespace QMind
                 reward = -100.0f;
             }
 
-            if (nextStateCell == OtherPosition || AgentPosition == OtherPosition)
+            if (nextStateCell == OtherPosition)
             {
                 reward = -100.0f;
             }
 
-            //Celda con muro o fuera de mapa
-            //->Pillado por el zombie: -50
-            //->Si es una celda transitable: 30
-            //->Si es una celda transitable y además la distancia es mayor que X: 50
-            //->Si es una transitable, la distancia es mayor que X y además la dirección del enemigo es favorable para el personaje: 100
-
             return reward;
         }
+
+        //if (state.rangeDistance == 2)
+        //{
+        //    if (state.orientation == 4)
+        //    {
+        //        reward = 100.0f;
+        //    }
+        //    else if (state.orientation == 3 || state.orientation == 5)
+        //    {
+        //        reward = 60.0f;
+        //    }
+        //    else
+        //    {
+        //        reward = 40.0f;
+        //    }
+        //}
+        //else if (state.rangeDistance == 1)
+        //{
+        //    if (state.orientation == 4)
+        //    {
+        //        reward = 50.0f;
+        //    }
+        //    else if (state.orientation == 3 || state.orientation == 5)
+        //    {
+        //        reward = 30.0f;
+        //    }
+        //    else
+        //    {
+        //        reward = 20.0f;
+        //    }
+        //}
+        //else if (state.rangeDistance == 0)
+        //{
+        //    if (state.orientation == 4)
+        //    {
+        //        reward = 15.0f;
+        //    }
+        //    else if (state.orientation == 3 || state.orientation == 5)
+        //    {
+        //        reward = 7.0f;
+        //    }
+        //    else
+        //    {
+        //        reward = 0.0f;
+        //    }
+        //}
+        //if (!nextStateCell.Walkable || nextStateCell == OtherPosition || AgentPosition == OtherPosition)
+        //{
+        //    reward = -100.0f;
+        //}
 
         private CellInfo CalculateCellPosition(int action)
         {
@@ -363,6 +406,13 @@ namespace QMind
             return discreteOrientation;
         }
 
+        //public bool FacingEachOther(CellInfo agentCell, CellInfo otherCell)
+        //{
+        //    int agentToPlayerOrientation = DiscretizeOrientation(-1, agentCell, otherCell);
+        //    int playerToAgentOrientation = DiscretizeOrientation(-1, otherCell, agentCell);
+        //    return (agentToPlayerOrientation + 4) % 8 == playerToAgentOrientation;
+        //}
+
         private bool[] CalculateCellState(int actionNextState)
         {
             bool[] contiguousCells = new bool[4];
@@ -422,7 +472,6 @@ namespace QMind
         }
 
 
-        //int rotacionEsquinas = 1;
 
         private void StartEpisode()
         {
@@ -432,17 +481,25 @@ namespace QMind
 
             newEpisode = false;
 
-            if (CurrentEpisode == 30000)
+            if (CurrentEpisode == 80000)
             {
                 qMindParams.epsilon = 0.5f;
             }
-            if (CurrentEpisode == 60000)
+            if (CurrentEpisode == 100000)
+            {
+                qMindParams.epsilon = 0.4f;
+            }
+            if (CurrentEpisode == 120000)
             {
                 qMindParams.epsilon = 0.3f;
             }
-            if (CurrentEpisode == 80000)
+            if (CurrentEpisode == 160000)
             {
                 qMindParams.epsilon = 0.2f;
+            }
+            if (CurrentEpisode == 200000)
+            {
+                qMindParams.epsilon = 0.1f;
             }
 
             AgentPosition = world.RandomCell();

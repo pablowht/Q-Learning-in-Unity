@@ -66,11 +66,11 @@ public class MyQTable
         return highestQValue;
     }
 
-    public int GetBestAction(MyQStates currentState)
+    public int GetBestAction(MyQStates currentState, int highest)
     {
         //int action;
-        int highestAction = 0;
-        float highestValue = -99.99f;
+        int highestAction = highest;
+        float highestValue = -100.0f;
 
         if(qTableDictionary.TryGetValue(currentState, out float[] qValues))
         {
@@ -81,7 +81,9 @@ public class MyQTable
                     highestValue = qValues[i];
                     highestAction = i;
                 }
+                //Debug.Log(qValues[i]);
             }
+            //Debug.Log("-------------------------------");
         }
         //Debug.Log("highestValue: " + highestValue);
         return highestAction;
