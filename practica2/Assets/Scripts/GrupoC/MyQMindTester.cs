@@ -16,7 +16,9 @@ public class MyQMindTester : IQMind
         world = worldInfo;
         
         qTableTester = new MyQTable();
-        qTablePath = qTableTester.ReturnNewestTable(Application.dataPath + "/Scripts/QTables/");
+        //escogemos la dirección de la última tabla guardada
+        qTablePath = qTableTester.ReturnNewestTable(Application.dataPath + "/Scripts/GrupoC/QTables/"); 
+        //cargamos la tabla en el diccionario
         qTableTester.qTableDictionary = qTableTester.LoadTable(qTablePath);
     }
 
@@ -28,30 +30,38 @@ public class MyQMindTester : IQMind
     {
         Debug.Log("QMind: GetNextStep");
 
+        //se discretizan los distintos valores del estado 
         int distance = DiscretizeDistance(currentPosition, otherPosition);
         int orientation = DiscretizeOrientation(currentPosition, otherPosition);
         bool[] cells = CalculateCellState(currentPosition);
 
+
         currentState = new MyQStates(distance, orientation, cells);
 
-        bestAction = qTableTester.GetBestAction(currentState, -1);
+        //se escoge la mejor acción a realizar según el estado actual 
+        bestAction = qTableTester.GetBestAction(currentState);
 
-        if(bestAction == -1)
+        //la siguiente celda será a la que lleve la acción escogida 
+        nextCell = ReturnCellAction(bestAction, currentPosition);
+        //se trasforma a coordenadas del mundo
+        nextCell = world[nextCell.x, nextCell.y];
+
+        //se comprueba que la siguiente celda sea andable para evitar malas celdas
+        if (nextCell.Walkable)
         {
-            return currentPosition;
+            //en caso de que sea andable se devuelve la celda nueva 
+            return nextCell;
         }
         else
-        {
-            nextCell = ReturnCellAction(bestAction, currentPosition);
-            nextCell = world[nextCell.x, nextCell.y];
-
-            return nextCell;
+        {   // en caso de que no, se devuelve la celda en la que se estaba 
+            return currentPosition;
         }
 
     }
 
     private CellInfo ReturnCellAction(int action, CellInfo AgentPosition)
     {
+        // se crea un cellinfo dependiendo de la mejor acción elegida 
         return action switch
         {
             //Norte
@@ -65,6 +75,8 @@ public class MyQMindTester : IQMind
         };
     }
 
+    #region Discretizaciones
+    //método para discretizar la distancia, más explicado en MyQMindTrainer
     private int DiscretizeDistance(CellInfo AgentPosition, CellInfo OtherPosition)
     {
         int manhattanDistance = Math.Abs(AgentPosition.x - OtherPosition.x) + Math.Abs(AgentPosition.y - OtherPosition.y);
@@ -73,7 +85,7 @@ public class MyQMindTester : IQMind
         {
             return 0;
         }
-        else if (manhattanDistance > 5 && manhattanDistance <= 20)
+        else if (manhattanDistance > 5 && manhattanDistance <= 15) //ELEFANTE: he cambiando el 20 por un 15
         {
             return 1;
         }
@@ -82,7 +94,7 @@ public class MyQMindTester : IQMind
             return 2;
         }
     }
-
+    //método para discretizar la orientación, más explicado en MyQMindTrainer
     private int DiscretizeOrientation(CellInfo AgentPosition, CellInfo OtherPosition)
     {
         float deltaX = AgentPosition.x - OtherPosition.x;
@@ -100,7 +112,7 @@ public class MyQMindTester : IQMind
 
         return discreteOrientation;
     }
-
+    //método para saber si las celdas colindantes son andables o no, más explicada en MyQMindTester 
     private bool[] CalculateCellState(CellInfo AgentPosition)
     {
         bool[] contiguousCells = new bool[4];
@@ -122,5 +134,5 @@ public class MyQMindTester : IQMind
 
         return contiguousCells;
     }
-
+    #endregion
 }

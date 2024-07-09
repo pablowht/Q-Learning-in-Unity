@@ -1,20 +1,19 @@
-using NavigationDJIA.World;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
+//Clase para los estados
 public class MyQStates
 {
-    //Estados
+    //Numero de estados: 3 * 8 * 2^4 = 384
     //1. Rango de expansión: 0, 1, 2 // 0 más cercano y 2 más lejano
     //2. Orientacion: 0, 1, 2, 3, 4, 5, 6, 7
     //3. Estado de la celda: Muros true/false
-    //Numero de estados: 3 * 8 * 2^4 = 384
     public int rangeDistance;
     public int orientation;
     public bool[] cellState;
 
+
+    //Constructor de estados
     public MyQStates(int rangeDistance, int orientation, bool[] cellState)
     {
         this.rangeDistance = rangeDistance;
@@ -22,7 +21,7 @@ public class MyQStates
         this.cellState = cellState;
     }
 
-
+    //Sobrescritura del metodo Equals para poderlo utilizar en el diccionario
     public override bool Equals(object obj)
     {
         if (obj is MyQStates other)
@@ -34,6 +33,7 @@ public class MyQStates
         return false;
     }
 
+    //Sobrescritura del metodo GetHashCode para poderlo utilizar en el diccionario
     public override int GetHashCode()
     {
         int hash = 17;

@@ -6,8 +6,10 @@ using UnityEngine;
 
 namespace QMind
 {
+    //Clase para el Trainer
     public class MyQMindTrainer : IQMindTrainer
     {
+        //Variables básicas del entrenamiento provenientes de la interfaz
         public int CurrentEpisode { get; private set; }
         public int CurrentStep { get; private set; }
         public CellInfo AgentPosition { get; private set; }
@@ -15,6 +17,7 @@ namespace QMind
         public float Return { get; private set; }
         public float ReturnAveraged { get; private set; }
 
+        //Eventos que controlan los episodios
         public event EventHandler OnEpisodeStarted;
         public event EventHandler OnEpisodeFinished;
 
@@ -26,83 +29,91 @@ namespace QMind
         //Tabla Q
         MyQTable qTable;
         int qTableNumber = 0;
-        //int qTableEpocas = 0;
-        //int qTableBestReward = 0;
 
-
+        //Metodo Initialize donde se inicializa el mundo, la posición de los personajes, los valores del algoritmo y se crea o carga la tabla Q
         public void Initialize(QMindTrainerParams qMindTrainerParams, WorldInfo worldInfo, INavigationAlgorithm navigationAlgorithm)
         {
             Debug.Log("MyQMindTrainer: initialized");
             world = worldInfo;
 
+            //Posiciones aleatorias
             AgentPosition = worldInfo.RandomCell();
             OtherPosition = worldInfo.RandomCell();
 
+            //Parámetros del algoritmo
             qMindParams = qMindTrainerParams;
             qMindParams.episodes = 300000;
             qMindParams.episodesBetweenSaves = 20000;
             qMindParams.epsilon = 0.85f;
+            //qMindParams.alpha = 0.3f;
+            //qMindParams.gamma = 0.7f;
 
+            //Contador de pasos totales para la recompensa media
             totalSteps = 1;
 
+            //Inicialización del mundo
             navAlgorithm = navigationAlgorithm;
             navAlgorithm.Initialize(world);
 
+            //Creación de la tabla Q
             qTable = new MyQTable();
-            //qTable.InitializeQTable();
-            qTableNumber = 19;
-            string pathTable = qTable.ReturnNewestTable(Application.dataPath + "/Scripts/QTables/");
-            qTable.LoadTable(pathTable);
+            qTable.InitializeQTable();
+
+            //Si se desea partir de una tabla ya creada poner el número de esta para un correcto nombre y comentar: qTable.InitializeQTable();
+
+            //qTableNumber = 21;
+            //string pathTable = qTable.ReturnNewestTable(Application.dataPath + "/Scripts/GrupoC/QTables/");
+            //qTable.LoadTable(pathTable);
         }
 
+        //Variables para el DoStep
+
+        //Variables de los estados
         MyQStates currentState;
         MyQStates nextState;
         int distance;
         int orientation;
         bool[] cellState;
+        CellInfo nextStateCell;
 
-        int action;
+
+        //Valores Q
         float QValueCurrent;
         float QValueNew;
         float QValueNextState;
+
+        int action;
         float reward;
         int totalSteps;
         float accionAleatoria = 0.1f;
-        CellInfo nextStateCell;
 
         float maxQValue;
         int episodeAux = 0;
 
         bool newEpisode = true;
 
+        //Metodo DoStep
         public void DoStep(bool train)
         {
-
+            //Si no hay ningun episodio comenzado se comienza
             if (newEpisode)
             {
                 StartEpisode();
             }
+            
             CurrentStep += 1;
 
-            //Creamos el estado actual
+            //Creamos el estado actual discretizando sus datos
             distance = DiscretizeDistance(-1);
-            orientation = DiscretizeOrientation(-1);
+            orientation = DiscretizeOrientation(-1, AgentPosition, OtherPosition);
             cellState = CalculateCellState(-1);
 
             currentState = new MyQStates(distance, orientation, cellState);
 
+            //Se obtiene el array de los valores Q
             qTable.qTableDictionary.TryGetValue(currentState, out float[] qValuesCurrentState);
 
-            //Se inicializan las celdas no andables con recompensa -100
-            //for (int i = 0; i < cellState.Length; i++)
-            //{
-            //    if (!cellState[i])
-            //    {
-            //        qValuesCurrentState[i] = -100; //Recompensa negativa muy alta
-            //    }
-            //}
-
-            //Seleccionamos una acción de forma balanceada
+            //Seleccionamos una acción de forma balanceada (al principio favoreciendo la aleatoriedad)
             accionAleatoria = UnityEngine.Random.Range(0.0f, 1.0f);
             if (accionAleatoria < qMindParams.epsilon)
             {
@@ -111,53 +122,53 @@ namespace QMind
             }
             else
             {
-                action = qTable.GetBestAction(currentState, 0);
+                action = qTable.GetBestAction(currentState);
                 //accionAleatoria = UnityEngine.Random.Range(0.1f, qMindParams.epsilon);
             }
 
-            //Siguiente estado
+            //Calculo del siguiente estado según la acción
             int distanceNext = DiscretizeDistance(action);
-            int orientationNext = DiscretizeOrientation(action);
+            int orientationNext = DiscretizeOrientation(action, AgentPosition, OtherPosition);
             bool[] cellStateNext = CalculateCellState(action);
-
             nextState = new MyQStates(distanceNext, orientationNext, cellStateNext);
+
+            //Se obtiene el array de los valores Q
             qTable.qTableDictionary.TryGetValue(nextState, out float[] qValuesNextState);
 
-            //Obtenemos el valor Q del estado actual
+            //Obtenemos el valor Q del estado actual según la acción
             QValueCurrent = qValuesCurrentState[action];
-            //Obtenemos el valor Q del estado siguiente
+
+            //Obtenemos el mejor valor Q del estado siguiente
             QValueNextState = qTable.GetBestQValue(nextState, qValuesNextState);
 
+            //Se calcula la posición de la celda siguiente según la acción
             nextStateCell = CalculateCellPosition(action);
             nextStateCell = world[nextStateCell.x, nextStateCell.y];
 
             //Calculo de recompensa
-            reward = GetReward(nextState, qValuesNextState);
+            reward = GetReward(nextState, currentState);
             //Recompensa Total
             Return += reward;
             //Recompensa Media
             ReturnAveraged = Return / totalSteps;
             totalSteps++;
 
-            if(reward > -100.0f)
-            {
-                QValueNew = (1 - qMindParams.alpha) * QValueCurrent + qMindParams.alpha * (reward + qMindParams.gamma * QValueNextState);
-            }
-            else
-            {
-                QValueNew = reward;
-            }
-            //Debug.Log(QValueNew);
+            //Calculo del nuevo valor Q del estado actual
+            QValueNew = (1 - qMindParams.alpha) * QValueCurrent + qMindParams.alpha * (reward + qMindParams.gamma * QValueNextState);
 
+            //Variable para guardar el mejor no
             maxQValue = QValueNew > maxQValue ? QValueNew : maxQValue;
 
+            //Se asigna el nuevo valor de Q
             qValuesCurrentState[action] = QValueNew;
 
+            //Si la recompensa es negativa grande o el agente está en la misma posición del oponente se reinicia 
             if (AgentPosition == OtherPosition || reward <= -50.0f)
             {
                 RestartEpisode();
             }
 
+            //Si se ha llegado al máximo de episodios se guarda la tabla y se reinicia
             if (episodeAux == qMindParams.episodesBetweenSaves)
             {
                 qTableNumber++;
@@ -168,13 +179,51 @@ namespace QMind
                 RestartEpisode();
             }
 
+            //Se mueve al oponente con el GetPath y al Agent a la siguiente celda
             if (navAlgorithm.GetPath(OtherPosition, AgentPosition, 200).Length > 0)
             {
                 OtherPosition = navAlgorithm.GetPath(OtherPosition, AgentPosition, 200)[0];
             }
             AgentPosition = world[nextStateCell.x, nextStateCell.y];
         }
+
+        #region Controlador de episodios
+        private void StartEpisode()
+        {
+            //Contador de variables
+            CurrentEpisode += 1;
+            episodeAux += 1;
+            CurrentStep = 0;
+
+            newEpisode = false;
+
+            //Modificación del epsilon según los episodios
+            if (CurrentEpisode == 80000)
+            {
+                qMindParams.epsilon = 0.6f;
+            }
+            if (CurrentEpisode == 100000)
+            {
+                qMindParams.epsilon = 0.5f;
+            }
+            //if (CurrentEpisode == 140000)
+            //{
+            //    qMindParams.epsilon = 0.4f;
+            //}
+            //if (CurrentEpisode == 160000)
+            //{
+            //    qMindParams.epsilon = 0.3f;
+            //}
+
+            //Se pone al agente y oponente en una celda aleatoria
+            AgentPosition = world.RandomCell();
+            OtherPosition = world.RandomCell();
+
+            //Se comienza el episodio
+            OnEpisodeStarted?.Invoke(this, EventArgs.Empty);
+        }
         
+        //Acaba el episodio y se reinicia
         private void RestartEpisode()
         {
             newEpisode = true;
@@ -182,121 +231,44 @@ namespace QMind
             OnEpisodeFinished?.Invoke(this, EventArgs.Empty);
         }
 
-        private float GetReward(MyQStates state, float[] qValuesAction)
+        #endregion
+
+        //Metodo para obtener una recompensa según el estado
+        private float GetReward(MyQStates nextState, MyQStates currentState)
         {
             float reward = 0.0f;
 
-            if (nextStateCell.Walkable)
-            {
-                if (state.rangeDistance == 2)
-                {
-                    if (state.orientation == 4)
-                    {
-                        reward = 100.0f;
-                    }
-                    else if (state.orientation == 3 || state.orientation == 5)
-                    {
-                        reward = 60.0f;
-                    }
-                    else
-                    {
-                        reward = 40.0f;
-                    }
-                }
-                else if (state.rangeDistance == 1)
-                {
-                    if (state.orientation == 4)
-                    {
-                        reward = 50.0f;
-                    }
-                    else if (state.orientation == 3 || state.orientation == 5)
-                    {
-                        reward = 30.0f;
-                    }
-                    else
-                    {
-                        reward = 20.0f;
-                    }
-                }
-                else if (state.rangeDistance == 0)
-                {
-                    if (state.orientation == 4)
-                    {
-                        reward = 15.0f;
-                    }
-                    else if (state.orientation == 3 || state.orientation == 5)
-                    {
-                        reward = 7.0f;
-                    }
-                    else
-                    {
-                        reward = 0.0f;
-                    }
-                }
-            }
-            else
+            int initialDistance = Mathf.Abs(AgentPosition.x - OtherPosition.x) + Mathf.Abs(AgentPosition.y - OtherPosition.y);
+            int newDistance = Mathf.Abs(nextStateCell.x - OtherPosition.x) + Mathf.Abs(nextStateCell.y - OtherPosition.y);
+
+            //Recompensa negativa si va a una celda no transitable
+            if (!nextStateCell.Walkable)
             {
                 reward = -100.0f;
             }
-
+            else if (newDistance > initialDistance)
+            {
+                reward = 10.0f; //Recompensa positiva si aumenta la distancia entre ambos
+            }
+            else if (newDistance < initialDistance)
+            {
+                reward = -1.0f; //Recompensa negativa si disminuye la distancia entre ambos
+            }
+            else if (newDistance == initialDistance)
+            {
+                reward = 0.0f; //Recompensa neutra si mantiene la distancia entre ambos
+            }
+            //Recompensa negativa si la celda a la que va es la del Oponente
             if (nextStateCell == OtherPosition)
             {
                 reward = -100.0f;
             }
 
+            
             return reward;
         }
 
-        //if (state.rangeDistance == 2)
-        //{
-        //    if (state.orientation == 4)
-        //    {
-        //        reward = 100.0f;
-        //    }
-        //    else if (state.orientation == 3 || state.orientation == 5)
-        //    {
-        //        reward = 60.0f;
-        //    }
-        //    else
-        //    {
-        //        reward = 40.0f;
-        //    }
-        //}
-        //else if (state.rangeDistance == 1)
-        //{
-        //    if (state.orientation == 4)
-        //    {
-        //        reward = 50.0f;
-        //    }
-        //    else if (state.orientation == 3 || state.orientation == 5)
-        //    {
-        //        reward = 30.0f;
-        //    }
-        //    else
-        //    {
-        //        reward = 20.0f;
-        //    }
-        //}
-        //else if (state.rangeDistance == 0)
-        //{
-        //    if (state.orientation == 4)
-        //    {
-        //        reward = 15.0f;
-        //    }
-        //    else if (state.orientation == 3 || state.orientation == 5)
-        //    {
-        //        reward = 7.0f;
-        //    }
-        //    else
-        //    {
-        //        reward = 0.0f;
-        //    }
-        //}
-        //if (!nextStateCell.Walkable || nextStateCell == OtherPosition || AgentPosition == OtherPosition)
-        //{
-        //    reward = -100.0f;
-        //}
-
+        //Calcula la celda correspondiente a la accion
         private CellInfo CalculateCellPosition(int action)
         {
             return action switch
@@ -312,11 +284,16 @@ namespace QMind
             };
         }
 
+        #region Discretización del estado
+
+        //Discretiza la distancia según los valores queridos
         private int DiscretizeDistance(int actionNextState)
         {
             int manhattanDistance = 0;
+            //Si se pasa una acción que es -1 significa que es el estado actual
             if (actionNextState != -1)
             {
+                //Según la acción se calcula una distancia manhattan según la celda debida
                 switch (actionNextState)
                 {
                     //Norte
@@ -339,14 +316,16 @@ namespace QMind
             }
             else
             {
+                //Caso de estado actual
                 manhattanDistance = Math.Abs(AgentPosition.x - OtherPosition.x) + Math.Abs(AgentPosition.y - OtherPosition.y);
             }
 
+            //Segun la distancia manhattan se devuelve un valor u otro con 0 el más pequeño y 2 la mayor distancia
             if (manhattanDistance <= 5)
             {
                 return 0;
             }
-            else if (manhattanDistance > 5 && manhattanDistance <= 20)
+            else if (manhattanDistance > 5 && manhattanDistance <= 15) 
             {
                 return 1;
             }
@@ -356,43 +335,47 @@ namespace QMind
             }
         }
 
-        private int DiscretizeOrientation(int actionNextState)
+        //Discretiza la orientación entre personajes
+        private int DiscretizeOrientation(int actionNextState, CellInfo agentPos, CellInfo otherPos)
         {
             float deltaX = 0;
             float deltaY = 0;
 
+            //Si la acción es distinta a -1 es una celda de siguiente estado
             if (actionNextState != -1)
             {
                 switch (actionNextState)
                 {
                     //Norte
                     case 0:
-                        deltaX = AgentPosition.x - OtherPosition.x;
-                        deltaY = OtherPosition.y - (AgentPosition.y + 1);
+                        deltaX = agentPos.x - otherPos.x;
+                        deltaY = otherPos.y - (agentPos.y + 1);
                         break;
                     //Este
                     case 1:
-                        deltaX = (AgentPosition.x + 1) - OtherPosition.x;
-                        deltaY = OtherPosition.y - AgentPosition.y;
+                        deltaX = (agentPos.x + 1) - otherPos.x;
+                        deltaY = otherPos.y - agentPos.y;
                         break;
                     //Sur
                     case 2:
-                        deltaX = AgentPosition.x - OtherPosition.x;
-                        deltaY = OtherPosition.y - (AgentPosition.y - 1);
+                        deltaX = agentPos.x - otherPos.x;
+                        deltaY = otherPos.y - (agentPos.y - 1);
                         break;
                     //Oeste
                     case 3:
-                        deltaX = (AgentPosition.x - 1) - OtherPosition.x;
-                        deltaY = OtherPosition.y - AgentPosition.y;
+                        deltaX = (agentPos.x - 1) - otherPos.x;
+                        deltaY = otherPos.y - agentPos.y;
                         break;
                 }
             }
             else
             {
-                deltaX = AgentPosition.x - OtherPosition.x;
-                deltaY = OtherPosition.y - AgentPosition.y;
+                //Si la acción es -1 se calcula el valor del estado actual
+                deltaX = agentPos.x - otherPos.x;
+                deltaY = otherPos.y - agentPos.y;
             }
 
+            //Se discretiza según el ángulo calculado por la tangente
             float angleRadians = Mathf.Atan2(deltaY, deltaX);
 
             float angleDegrees = angleRadians * Mathf.Rad2Deg;
@@ -406,13 +389,7 @@ namespace QMind
             return discreteOrientation;
         }
 
-        //public bool FacingEachOther(CellInfo agentCell, CellInfo otherCell)
-        //{
-        //    int agentToPlayerOrientation = DiscretizeOrientation(-1, agentCell, otherCell);
-        //    int playerToAgentOrientation = DiscretizeOrientation(-1, otherCell, agentCell);
-        //    return (agentToPlayerOrientation + 4) % 8 == playerToAgentOrientation;
-        //}
-
+        //Se calcula el valor de las celdas colindantes al estado actual
         private bool[] CalculateCellState(int actionNextState)
         {
             bool[] contiguousCells = new bool[4];
@@ -422,7 +399,7 @@ namespace QMind
             CellInfo surCell = new(AgentPosition.x, AgentPosition.y - 1);
             CellInfo oesteCell = new(AgentPosition.x - 1, AgentPosition.y);
             
-
+            //Si la acción es distinta de -1 es una celda de estado siguiente
             if (actionNextState != -1)
             {
                 switch (actionNextState)
@@ -463,6 +440,7 @@ namespace QMind
             surCell = world[surCell.x, surCell.y];
             oesteCell = world[oesteCell.x, oesteCell.y];
 
+            //True/False si es Walkable
             contiguousCells[0] = norteCell.Walkable;
             contiguousCells[1] = esteCell.Walkable;
             contiguousCells[2] = surCell.Walkable;
@@ -471,44 +449,6 @@ namespace QMind
             return contiguousCells;
         }
 
-
-
-        private void StartEpisode()
-        {
-            CurrentEpisode += 1;
-            episodeAux += 1;
-            CurrentStep = 0;
-
-            newEpisode = false;
-
-            if (CurrentEpisode == 80000)
-            {
-                qMindParams.epsilon = 0.5f;
-            }
-            if (CurrentEpisode == 100000)
-            {
-                qMindParams.epsilon = 0.4f;
-            }
-            if (CurrentEpisode == 120000)
-            {
-                qMindParams.epsilon = 0.3f;
-            }
-            if (CurrentEpisode == 160000)
-            {
-                qMindParams.epsilon = 0.2f;
-            }
-            if (CurrentEpisode == 200000)
-            {
-                qMindParams.epsilon = 0.1f;
-            }
-
-            AgentPosition = world.RandomCell();
-
-
-            OtherPosition = world.RandomCell();
-
-
-            OnEpisodeStarted?.Invoke(this, EventArgs.Empty);
-        }
+        #endregion
     }
 }
